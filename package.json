@@ -1,0 +1,11 @@
+{
+  "name": "vacuum-excuse-01",
+  "version": "1.0.0",
+  "description": "One robot-vacuum excuse, written for make.fun's The Robot Vacuum's Best Excuse bounty.",
+  "type": "module",
+  "main": "main.ts",
+  "scripts": {
+    "start": "node main.ts"
+  },
+  "license": "MIT"
+}
