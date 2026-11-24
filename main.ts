@@ -7,8 +7,11 @@ const EXCUSE =
   "I didn't miss that spot. My map says it's a wall, and I trust my map more than your eyes.";
 
 function checkEntry(text: string): void {
-  if (text.length < 1 || text.length > 140) {
-    throw new Error(`entry must be 1-140 characters, got ${text.length}`);
+  // Count characters as Unicode code points, not UTF-16 code units,
+  // so the 1-140 gate matches what the bounty counts.
+  const charCount = [...text].length;
+  if (charCount < 1 || charCount > 140) {
+    throw new Error(`entry must be 1-140 characters, got ${charCount}`);
   }
   if (text.trim().length === 0) {
     throw new Error("entry must not be only whitespace");
@@ -20,7 +23,8 @@ function checkEntry(text: string): void {
     throw new Error("entry must have no leading or trailing whitespace");
   }
   for (const ch of text) {
-    if (ch.charCodeAt(0) < 0x20 && ch !== "\t") {
+    const code = ch.codePointAt(0)!;
+    if (code < 0x20 || code === 0x7f) {
       throw new Error("entry must not contain control characters");
     }
   }
